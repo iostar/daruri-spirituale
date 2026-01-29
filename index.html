@@ -80,7 +80,7 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-		       .email-section {
+		.email-section {
             background: #f8f9fa;
             padding: 25px;
             border-radius: 10px;
@@ -191,7 +191,7 @@
                 border-radius: 0;
                 box-shadow: none;
             }
-			   .footer {
+			.footer {
                 border-radius: 0;
                 margin-top: 0;
                 padding: 15px;
@@ -238,6 +238,13 @@
         <div class="results" id="results">
             <h2>🌟 Rezultatele Tale</h2>
             <div id="resultsContainer"></div>
+			<div class="email-section" id="emailSection" style="display: none;">
+                <h3>📧 Trimite rezultatele pe email</h3>
+                <p style="color: #6c757d; margin-bottom: 15px;">Introdu adresa ta de email pentru a primi o copie a rezultatelor</p>
+                <input type="email" id="emailInput" class="email-input" placeholder="adresa@exemplu.ro">
+                <br>
+                <button onclick="sendEmail()" class="email-button" id="sendEmailBtn">Trimite rezultatele</button>
+            </div>
         </div>
     </div>
     
