@@ -44,6 +44,14 @@
             background: #f8f9fa;
             border-radius: 10px;
             border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        .question-block.unanswered {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+        .question-block.unanswered .question-number {
+            color: #dc3545;
         }
         .question-number { font-weight: bold; color: #667eea; font-size: 14px; margin-bottom: 10px; }
         .question-text { font-size: 17px; color: #212529; margin-bottom: 18px; line-height: 1.6; font-weight: 500; }
@@ -404,7 +412,17 @@
             }
             container.appendChild(pageDiv);
         }
-
+       
+        // Adăugăm event listeners pentru a elimina marcajul roșu când se răspunde
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                var questionBlock = e.target.closest('.question-block');
+                if (questionBlock && questionBlock.classList.contains('unanswered')) {
+                    questionBlock.classList.remove('unanswered');
+                }
+            }
+        });
+		
         function changePage(direction) {
             var newPage = currentPage + direction;
             if (newPage < 1 || newPage > totalPages) return;
@@ -414,17 +432,35 @@
                 var startIdx = (currentPage - 1) * questionsPerPage;
                 var endIdx = Math.min(startIdx + questionsPerPage, questions.length);
                 var unansweredOnPage = [];
+                var firstUnansweredBlock = null;
                 
                 for (var i = startIdx; i < endIdx; i++) {
                     var answer = document.querySelector('input[name="q' + i + '"]:checked');
+                    var questionBlocks = document.getElementById('page' + currentPage).querySelectorAll('.question-block');
+                    var blockIndex = i - startIdx;
+                    
                     if (!answer) {
                         unansweredOnPage.push(i + 1);
+                        if (questionBlocks[blockIndex]) {
+                            questionBlocks[blockIndex].classList.add('unanswered');
+                            if (!firstUnansweredBlock) {
+                                firstUnansweredBlock = questionBlocks[blockIndex];
+                            }
+                        }
                     }
                 }
                 
                 if (unansweredOnPage.length > 0) {
                     alert('Te rugăm să răspunzi la toate întrebările de pe această pagină înainte de a continua!\n\nÎntrebări fără răspuns: ' + unansweredOnPage.join(', '));
-                    return;
+                                        
+                    // Scroll la prima întrebare necompletată
+                    if (firstUnansweredBlock) {
+                        setTimeout(function() {
+                            firstUnansweredBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                    }
+					
+					return;
                 }
             }
             
