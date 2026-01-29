@@ -120,6 +120,21 @@
             cursor: not-allowed;
             transform: none;
         }
+		.reset-button {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        .reset-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+        }
         .results { display: none; padding: 30px; background: #f8f9fa; margin-top: 20px; }
         .results h2 { color: #495057; margin-bottom: 20px; text-align: center; }
         .gift-result {
@@ -216,8 +231,9 @@
             <h1>🎁 Test de Identificare a Darurilor Spirituale</h1>
             <p>Descoperă-ți darurile spirituale prin acest chestionar de 130 de întrebări</p>
 			<p>Aplicație pentru specializarea explo: <b>Darurile Spirituale</b></p>
+			<button onclick="resetTest()" class="reset-button" style="margin-top: 15px;">🔄 Resetează testul</button>
         </div>
-        <div class="instructions">
+        <div class="instructions" id="instructions">
             <h2>Instrucțiuni de completare</h2>
             <ul>
                 <li><strong>0</strong>Deloc - Afirmația nu te reprezintă deloc</li>
@@ -475,9 +491,71 @@
                 var questionBlock = e.target.closest('.question-block');
                 if (questionBlock && questionBlock.classList.contains('unanswered')) {
                     questionBlock.classList.remove('unanswered');
-                }
+                }             
+                // Salvăm răspunsul în localStorage
+                localStorage.setItem('daruri_' + e.target.name, e.target.value);
             }
         });
+        
+        // Încărcăm răspunsurile salvate la pornire
+        function loadSavedAnswers() {
+            for (var i = 0; i < questions.length; i++) {
+                var savedValue = localStorage.getItem('daruri_q' + i);
+                if (savedValue !== null) {
+                    var radio = document.querySelector('input[name="q' + i + '"][value="' + savedValue + '"]');
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                }
+            }
+        }
+        
+        // Funcție de resetare
+        function resetTest() {
+            if (confirm('Sigur vrei să resetezi toate răspunsurile? Această acțiune nu poate fi anulată.')) {
+                // Ștergem toate răspunsurile din localStorage
+                for (var i = 0; i < questions.length; i++) {
+                    localStorage.removeItem('daruri_q' + i);
+                }
+                
+                // Deselectăm toate radio buttons
+                var allRadios = document.querySelectorAll('input[type="radio"]');
+                allRadios.forEach(function(radio) {
+                    radio.checked = false;
+                });
+                
+                // Eliminăm marcajele roșii
+                var allBlocks = document.querySelectorAll('.question-block');
+                allBlocks.forEach(function(block) {
+                    block.classList.remove('unanswered');
+                });
+                
+                // Ascundem rezultatele
+                document.getElementById('results').style.display = 'none';
+                
+                // Mergem la prima pagină
+                if (currentPage !== 1) {
+                    document.getElementById('page' + currentPage).classList.remove('active');
+                    currentPage = 1;
+                    document.getElementById('page1').classList.add('active');
+                    document.getElementById('pageIndicator').textContent = 'Pagina 1 din ' + totalPages;
+                    document.getElementById('prevButton').disabled = true;
+                    document.getElementById('nextButton').style.display = 'block';
+                    document.getElementById('submitButton').style.display = 'none';
+                }
+                
+                // Afișăm instrucțiunile
+                document.getElementById('instructions').style.display = 'block';
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                updateProgressBar();
+                
+                alert('Testul a fost resetat cu succes!');
+            }
+        }
+        
+        // Încărcăm răspunsurile salvate
+        loadSavedAnswers();
 		
         function changePage(direction) {
             var newPage = currentPage + direction;
@@ -523,7 +601,13 @@
             document.getElementById('page' + currentPage).classList.remove('active');
             currentPage = newPage;
             document.getElementById('page' + currentPage).classList.add('active');
-            
+           // Ascundem instrucțiunile pe toate paginile în afară de prima
+            if (currentPage === 1) {
+                document.getElementById('instructions').style.display = 'block';
+            } else {
+                document.getElementById('instructions').style.display = 'none';
+            }
+            			
             document.getElementById('pageIndicator').textContent = 'Pagina ' + currentPage + ' din ' + totalPages;
             document.getElementById('prevButton').disabled = currentPage === 1;
             
@@ -594,7 +678,7 @@
             
             var resultsSection = document.getElementById('results');
             resultsSection.style.display = 'block';
-          // Afișăm secțiunea de email
+		// Afișăm secțiunea de email
             document.getElementById('emailSection').style.display = 'block';
           
             setTimeout(function() {
