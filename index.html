@@ -398,6 +398,25 @@
         function changePage(direction) {
             var newPage = currentPage + direction;
             if (newPage < 1 || newPage > totalPages) return;
+    
+			// Verificăm dacă există întrebări necompletate pe pagina curentă înainte de a merge înainte
+            if (direction > 0) {
+                var startIdx = (currentPage - 1) * questionsPerPage;
+                var endIdx = Math.min(startIdx + questionsPerPage, questions.length);
+                var unansweredOnPage = [];
+                
+                for (var i = startIdx; i < endIdx; i++) {
+                    var answer = document.querySelector('input[name="q' + i + '"]:checked');
+                    if (!answer) {
+                        unansweredOnPage.push(i + 1);
+                    }
+                }
+                
+                if (unansweredOnPage.length > 0) {
+                    alert('Te rugăm să răspunzi la toate întrebările de pe această pagină înainte de a continua!\n\nÎntrebări fără răspuns: ' + unansweredOnPage.join(', '));
+                    return;
+                }
+            }
             
             document.getElementById('page' + currentPage).classList.remove('active');
             currentPage = newPage;
@@ -461,7 +480,7 @@
                 var giftCode = item[0];
                 var score = item[1];
                 var gift = gifts[giftCode];
-                var isTopGift = index < 3;
+                var isTopGift = index < 5;
                 var resultDiv = document.createElement('div');
                 resultDiv.className = 'gift-result' + (isTopGift ? ' top-gift' : '');
                 resultDiv.innerHTML = '<div class="gift-name">' + (isTopGift ? '⭐ ' : '') + gift.name + '</div>' +
