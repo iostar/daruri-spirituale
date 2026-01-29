@@ -80,6 +80,46 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
+		       .email-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .email-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .email-input {
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 15px;
+        }
+        .email-button {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .email-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+        .email-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
         .results { display: none; padding: 30px; background: #f8f9fa; margin-top: 20px; }
         .results h2 { color: #495057; margin-bottom: 20px; text-align: center; }
         .gift-result {
@@ -547,11 +587,74 @@
             
             var resultsSection = document.getElementById('results');
             resultsSection.style.display = 'block';
-            
+          // Afișăm secțiunea de email
+            document.getElementById('emailSection').style.display = 'block';
+          
             setTimeout(function() {
                 resultsSection.scrollIntoView({ behavior: 'smooth' });
             }, 100);
         });
+       
+        function sendEmail() {
+            var email = document.getElementById('emailInput').value;
+            
+            if (!email || !email.includes('@')) {
+                alert('Te rugăm să introduci o adresă de email validă!');
+                return;
+            }
+            
+            var button = document.getElementById('sendEmailBtn');
+            button.disabled = true;
+            button.textContent = 'Se trimite...';
+            
+            // Colectăm rezultatele
+            var resultsText = 'REZULTATELE TESTULUI DARURI SPIRITUALE\n\n';
+            resultsText += '=====================================\n\n';
+            
+            var sortedGifts = [];
+            var scores = {};
+            Object.keys(giftQuestions).forEach(function(gift) {
+                scores[gift] = 0;
+                giftQuestions[gift].forEach(function(questionNum) {
+                    var answer = document.querySelector('input[name="q' + (questionNum - 1) + '"]:checked');
+                    if (answer) scores[gift] += parseInt(answer.value);
+                });
+            });
+            sortedGifts = Object.entries(scores).sort(function(a, b) { return b[1] - a[1]; });
+            
+            sortedGifts.forEach(function(item, index) {
+                var giftCode = item[0];
+                var score = item[1];
+                var gift = gifts[giftCode];
+                var isTopGift = index < 5;
+                
+                resultsText += (index + 1) + '. ' + gift.name + (isTopGift ? ' ⭐' : '') + '\n';
+                resultsText += '   Punctaj: ' + score + ' din 15\n';
+                resultsText += '   ' + gift.desc + '\n';
+                if (isTopGift) {
+                    resultsText += '   Activități recomandate: ' + gift.activities + '\n';
+                }
+                resultsText += '\n';
+            });
+            
+            resultsText += '\n=====================================\n';
+            resultsText += 'Test generat de: Test Daruri Spirituale\n';
+            resultsText += 'Aplicație dezvoltată folosind claude.ai de către Ionuț Stăvărachi';
+            
+            // Creăm subiectul și corpul email-ului
+            var subject = 'Rezultatele mele - Test Daruri Spirituale';
+            var body = encodeURIComponent(resultsText);
+            
+            // Deschidem clientul de email
+            window.location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + body;
+            
+            setTimeout(function() {
+                button.disabled = false;
+                button.textContent = 'Trimite rezultatele';
+                alert('Clientul tău de email s-a deschis! Verifică și trimite mesajul.');
+            }, 1000);
+        }
+		
     </script>
 </body>
 </html>
