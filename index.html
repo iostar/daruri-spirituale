@@ -133,12 +133,22 @@
             margin-top: 30px;
         }
         @media (max-width: 768px) {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                border-radius: 0;
+                box-shadow: none;
+            }
             .radio-group { flex-direction: column; }
             .instructions ul { flex-direction: column; }
             .instructions li { min-width: 100%; }
             .header h1 { font-size: 22px; }
             .navigation-buttons { flex-direction: column; gap: 15px; }
             .page-indicator { order: -1; }
+            .questions-section { padding: 15px; }
+            .instructions { padding: 15px; }
         }
     </style>
 </head>
