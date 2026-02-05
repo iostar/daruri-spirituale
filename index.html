@@ -3,748 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Daruri Spirituale</title>
+    <title>Chestionar Daruri Spirituale</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        .header h1 { font-size: 40px; margin-bottom: 10px; }
-        .header p { font-size: 16px; opacity: 0.9; }
-        .instructions {
-            background: #f8f9fa;
-            padding: 15px 25px;
-            border-bottom: 2px solid #e9ecef;
-	      }
-        .instructions h2 { color: #495057; margin-bottom: 10px; font-size: 16px; }
-        .instructions ul { list-style: none; padding-left: 0; display: flex; flex-wrap: wrap; gap: 15px; margin: 0 30px;}
-        .instructions li { padding: 5px 0; color: #6c757d; font-size: 12px; flex: 1; min-width: 180px; text-align: center; }
-        .instructions li strong { color: #495057; display: flow-root; font-size: 20px; text-align: center;}
-        .questions-section { padding: 30px; }
-        .question-block {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s ease;
-        }
-        .question-block.unanswered {
-            border-left-color: #dc3545;
-            background: #fff5f5;
-        }
-        .question-block.unanswered .question-number {
-            color: #dc3545;
-        }
-        .question-number { font-weight: bold; color: #667eea; font-size: 14px; margin-bottom: 10px; }
-        .question-text { font-size: 17px; color: #212529; margin-bottom: 18px; line-height: 1.6; font-weight: 500; }
-        .radio-group { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px 20px; 
-            margin-top: 5px;
-        }
-        .radio-option { display: flex; align-items: center; }
-        .radio-option input[type="radio"] { width: 22px; height: 22px; margin-right: 8px; cursor: pointer; }
-        .radio-option label { cursor: pointer; font-size: 16px; color: #495057; white-space: nowrap; }
-        .submit-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: block;
-            margin: 30px auto;
-            transition: transform 0.2s;
-        }
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-		.email-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        .email-section h3 {
-            color: #495057;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        .email-input {
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 15px;
-        }
-        .email-button {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .email-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-        }
-        .email-button:disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-            transform: none;
-        }
-		.reset-button {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            font-size: 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            margin-top: 10px;
-        }
-        .reset-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
-        }
-        .results { display: none; padding: 30px; background: #f8f9fa; margin-top: 20px; }
-        .results h2 { color: #495057; margin-bottom: 20px; text-align: center; }
-        .gift-result {
-            background: white;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #28a745;
-        }
-        .gift-result.top-gift { border-left-color: #ffc107; background: #fff9e6; }
-        .gift-name { font-weight: bold; color: #495057; font-size: 18px; margin-bottom: 5px; }
-        .gift-score { color: #667eea; font-size: 16px; margin-bottom: 10px; }
-        .gift-description { color: #6c757d; line-height: 1.6; margin-bottom: 10px; }
-        .gift-activities { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 10px; }
-        .gift-activities h4 { color: #495057; font-size: 15px; margin-bottom: 8px; }
-        .gift-activities p { color: #6c757d; font-size: 14px; line-height: 1.5; }
-        .progress-bar {
-            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s; z-index: 1000;
-        }
-        .page { display: none; }
-        .page.active { display: block; }
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px;
-            border-top: 2px solid #e9ecef;
-        }
-        .nav-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .nav-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .nav-button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .page-indicator {
-            font-size: 16px;
-            color: #667eea;
-            font-weight: bold;
-        }
-        .footer {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 30px;
-    		padding-left: 30px;
-   			padding-right: 30px;
-			color: #fff;
-        }
-        @media (max-width: 768px) {
-            body {
-				background: white;
-                padding: 0;
-            }
-            .container {
-                border-radius: 0;
-                box-shadow: none;
-            }
-			.footer {
-                border-radius: 0;
-                margin-top: 0;
-                padding: 15px;
-                font-size: 14px;
-				color: #764ba2;
-            }
-            .radio-group { flex-direction: column; }
-            .instructions ul { flex-direction: column; }
-            .instructions li { min-width: 100%; }
-            .header h1 { font-size: 35px; }
-            .navigation-buttons { flex-direction: column; gap: 15px; }
-            .page-indicator { order: -1; }
-            .questions-section { padding: 15px; }
-            .instructions { padding: 15px; }
-        }
+        body { background-color: #f8f9fa; padding-top: 2rem; }
+        .question-card { margin-bottom: 1.5rem; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background: white; }
+        .options-group { display: flex; justify-content: space-between; margin-top: 1rem; }
+        .option-item { text-align: center; flex: 1; }
+        .result-item { margin-bottom: 0.5rem; padding: 0.5rem; border-radius: 5px; background: #e9ecef; }
+        .progress-bar-container { position: sticky; top: 0; z-index: 1000; background: #f8f9fa; padding: 10px 0; }
+        @media (max-width: 576px) { .options-group { flex-direction: column; align-items: flex-start; } .option-item { margin-bottom: 10px; } }
     </style>
 </head>
 <body>
-    <div class="progress-bar" id="progressBar"></div>
-    <div class="container">
-        <div class="header">
-            <h1>🎁 Test de Identificare a Darurilor Spirituale</h1>
-            <p>Descoperă-ți darurile spirituale prin acest chestionar de 130 de întrebări</p>
-			<p>Aplicație pentru specializarea explo: <b>Darurile Spirituale</b></p>
-			<button onclick="resetTest()" class="reset-button" style="margin-top: 15px;">🔄 Resetează testul</button>
-        </div>
-        <div class="instructions" id="instructions">
-            <h2>Instrucțiuni de completare</h2>
-            <ul>
-                <li><strong>0</strong>Deloc - Afirmația nu te reprezintă deloc</li>
-                <li><strong>1</strong>Puțin - Ai simțit doar ocazional acest lucru</li>
-                <li><strong>2</strong>Uneori - Afirmația ți se potrivește parțial</li>
-                <li><strong>3</strong>În mare măsură - Afirmația te descrie perfect</li>
-            </ul>
-        </div>
-        <form id="spiritualGiftsForm">
-            <div class="questions-section" id="questionsContainer"></div>
-            <div class="navigation-buttons">
-                <button type="button" class="nav-button" id="prevButton" onclick="changePage(-1)">← Înapoi</button>
-                <div class="page-indicator" id="pageIndicator">Pagina 1 din 6</div>
-                <button type="button" class="nav-button" id="nextButton" onclick="changePage(1)">Următoarea →</button>
-            </div>
-            <button type="submit" class="submit-button" id="submitButton" style="display: none;">📊 Vezi Rezultatele</button>
-        </form>
-        <div class="results" id="results">
-            <h2>🌟 Rezultatele Tale</h2>
-            <div id="resultsContainer"></div>
-			<div class="email-section" id="emailSection" style="display: none;">
-                <h3>📧 Trimite rezultatele pe email</h3>
-                <p style="color: #6c757d; margin-bottom: 15px;">Introdu adresa ta de email pentru a primi o copie a rezultatelor</p>
-                <input type="email" id="emailInput" class="email-input" placeholder="adresa@exemplu.ro">
-                <br>
-                <button onclick="sendEmail()" class="email-button" id="sendEmailBtn">Trimite rezultatele</button>
-            </div>
+
+<div class="container">
+    <div class="text-center mb-5">
+        <h1>Chestionarul Darurilor Spirituale</h1>
+        <p class="lead">Descoperă modul în care Dumnezeu te-a echipat pentru slujire.</p>
+    </div>
+
+    <div class="progress-bar-container">
+        <div class="progress" style="height: 25px;">
+            <div id="surveyProgress" class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
         </div>
     </div>
-    
-    <div class="footer">
-        Aplicație dezvoltată folosind claude.ai de către Ionuț Stăvărachi după un chestionar de Mark A. McCleary și Terrence D. Griffith (1997)
+
+    <div id="survey-container" class="mt-4">
+        </div>
+
+    <div class="text-center mb-5">
+        <button id="calculateBtn" class="btn btn-primary btn-lg" style="display: none;" onclick="calculateResults()">Vezi Rezultatele</button>
     </div>
-    
-    <script>
-        var questions = [
-           "Când am făcut parte dintr-un grup fără organizare, am tendința de a interveni și de a umple golul.",
-            "Am răspuns frecvent la apelul de a predica sau de a preda Evanghelia celor necredincioși și celor care nu merg la biserică, în medii necunoscute.",
-            "Îmi place să fiu singur și simt chemarea lui Dumnezeu de a sluji ca persoană necăsătorită.",
-            "Am auzit pe alții raportând că am capacitatea de a distinge ceea ce este autentic de ceea ce este neadevărat.",
-            "I-am condus pe alții să-L accepte pe Isus ca Mântuitor al lor prin credința în Cuvântul Său.",
-            "Îmi place să-i încurajez pe cei descurajați și tulburați să se încreadă în Dumnezeu și să experimenteze bucuria Lui.",
-            "De mai multe ori, am poruncit duhurilor rele să iasă dintr-o persoană posedată și acestea au ieșit conform Cuvântului lui Dumnezeu.",
-            "Ceilalți membri ai grupului se uită de obicei la mine pentru îndrumare și direcție.",
-            "Gestionez bine banii pentru a oferi cu dărnicie lucrării Domnului.",
-            "Domnul m-a folosit pentru a vindeca instantaneu persoane bolnave.",
-            "Îmi place să-i ajut pe alții, fie pentru a-i elibera de sarcini, fie pentru a-i ajuta să-și finalizeze sarcinile esențiale.",
-            "Îmi pun frecvent casa la dispoziția persoanelor care au nevoie de cazare.",
-            "Petrec cel puțin o oră pe zi sau aproximativ 60 de minute acumulate în rugăciune pentru alții.",
-            "Am primit idei de la Dumnezeu în timp ce alții predau.",
-            "Alții mi-au spus că i-am ajutat să distingă fapte cheie și importante din Scriptură.",
-            "Am tendința de a vorbi, iar oamenii par să asculte, să fie de acord și să urmeze instrucțiunile mele.",
-            "Am dorința de a lucra cu cei care au probleme fizice sau mentale pentru a le alina suferința.",
-            "Alții pot indica situații specifice în care rugăciunile sau implicarea mea au dus la o întâmplare supranaturală.",
-            "Mă simt confortabil să împărtășesc Evanghelia cu necredincioși de alte etnii sau minorități și aceștia par să mă accepte.",
-            "Îmi place să slujesc și să supraveghez oamenii, ajutându-i să se maturizeze de la eșec la succes.",
-            "Am dorința de a transmite mesaje directe de la Dumnezeu care să zidească, să sfătuiască sau să mângâie pe alții.",
-            "Îmi place să fiu chemat să fac treburi prin biserică și pentru alții.",
-            "Oamenii mi-au spus că i-am ajutat să învețe adevărul biblic într-un mod semnificativ.",
-            "Am vorbit în limbi fie în cadru privat, fie public.",
-            "Aleg să trăiesc printre cei săraci pentru a-i ajuta și pentru a le împărtăși Evanghelia puterii lui Dumnezeu.",
-            "Aplic în mod constant cunoștințele spirituale și generale în situații pentru un beneficiu practic.",
-            "Îmi place să mă ocup de detaliile organizării ideilor, oamenilor, resurselor și timpului pentru o lucrare mai eficientă.",
-            "Am îndeplinit cu succes o misiune de a fi trimis în mai multe zone pentru a preda mesajul mântuirii.",
-            "Mulți oameni au observat că par nepăsător față de starea mea civilă, dar în același timp mulțumit.",
-            "Am un ochi pentru a recunoaște prezența lui Dumnezeu asupra oamenilor și în diverse situații.",
-            "Îmi place să împărtășesc cu necredincioșii cum m-a salvat Hristos din păcat și distrugere.",
-            "Am abilitățile necesare pentru a motiva eficient oamenii să se implice în lucrarea care contează.",
-            "Am observat posesiunea demonică în comportamentul și expresiile controlate de voce ale anumitor persoane.",
-            "Cred în Dumnezeu pentru imposibil și am văzut credința mea primind un răspuns divin într-un mod tangibil.",
-            "Dau în mod constant lucrării Domnului mult mai mult decât zecimea și darurile obișnuite.",
-            "Îmi place să mă rog și să slujesc bolnavilor, deoarece mulți dintre ei au fost vindecați ca rezultat.",
-            "Alți oameni și-au exprimat recunoștința pentru că i-am ajutat să devină mai eficienți.",
-            "Îmi place să-i fac pe oameni să se simtă ca acasă și să mănânce bine.",
-            "Iau în serios toate cererile de rugăciune, adăugându-le pe lista mea de rugăciune.",
-            "Am explicat doctrinele biblice într-un mod care zidește, sfătuiește și mângâie pe alții.",
-            "Am împărtășit perspective ale adevărului spiritual despre care alții au spus că i-au ajutat să se apropie de Dumnezeu.",
-            "Alții tind să urmeze conducerea mea pentru că au încredere în abilitățile mele.",
-            "Îmi place să am grijă de alții atunci când au avut nevoi materiale și fizice.",
-            "Dumnezeu m-a folosit pentru a face semne și minuni supranaturale care au fost recunoscute de alții.",
-            "Nu mă deranjează să învăț o altă limbă sau să vestesc mesajul mântuirii unei culturi diferite de oameni.",
-            "Îmi place să îmi asum responsabilitatea pentru bunăstarea spirituală a altor creștini.",
-            "Dumnezeu mi-a permis să dezvălui lucruri specifice care se vor întâmpla în viitor.",
-            "Sunt dornic să accept sau să mă ofer voluntar pentru a sluji altora sau familiei mele bisericești.",
-            "Sunt frecvent apreciat pentru explicarea adevărului biblic într-un mod relevant.",
-            "Am transmis un mesaj de la Dumnezeu poporului Său într-o limbă pe care nu o învățasem niciodată.",
-            "Să trăiesc un stil de viață simplu pentru a promova mai bine Evanghelia este incitant pentru mine.",
-            "Reușesc să găsesc soluții pentru probleme complicate în beneficiul practic al celor interesați.",
-            "Am un istoric excelent în realizarea de planuri eficiente pentru atingerea scopurilor grupului.",
-            "Îmi place să vorbesc pentru Dumnezeu necredincioșilor, chemându-i la ascultare și la o viață sfântă.",
-            "Ca persoană necăsătorită, mă bucur că am mai mult timp să slujesc Domnului.",
-            "Pot spune cu siguranță când este prezentă influența unui duh rău sau a unei erori.",
-            "Persoane necreștine au comentat că am un efect pozitiv asupra lor în direcția dezvoltării credinței în Hristos.",
-            "Oamenii vin la mine pentru consiliere și îmi spun că au fost ajutați, ușurați și vindecați.",
-            "Am fost chemat de mai multe ori când cineva a fost bănuit că este posedat de demoni.",
-            "Alții mi-au spus că am credință să realizez ceea ce lor li se pare imposibil.",
-            "Când sunt mișcat de un apel de a dărui lucrării lui Dumnezeu, de obicei pot găsi banii necesari pentru a răspunde.",
-            "Cunosc mai multe persoane care au fost vindecate când le-am slujit.",
-            "Îmi place să fac sarcini de rutină care au dus la o lucrare mai eficientă a altora.",
-            "Când oamenii vin la mine acasă, indică faptul că se simt ca acasă.",
-            "Rugăciunea de mijlocire este una dintre modalitățile mele preferate de a petrece timpul.",
-            "Simt un îndemn puternic să clarific mesajele primite de la mesagerii lui Dumnezeu, pentru frații din adunare care poate nu au înțeles.",
-            "După ce studiez Cuvântul lui Dumnezeu, sunt capabil să împărtășesc strategii sau tehnici pentru avansarea Împărăției Sale.",
-            "Alții par să accepte obiectivele și planurile pe care le stabilesc.",
-            "Îmi place să vizitez bolnavii și infirmii pentru că pot împărtăși cu ei mesajul lui Dumnezeu de speranță, vindecare și împăcare.",
-            "Dumnezeu a săvârșit în mod constant lucruri imposibile prin lucrarea mea față de alții.",
-            "Relaționez bine cu oameni de altă rasă sau cultură în timp ce caut să îndeplinesc misiunea lui Dumnezeu.",
-            "Sunt încrezător în a oferi îndrumare și direcție spirituală unui grup de creștini.",
-            "Oamenii mi-au spus că am comunicat mesaje oportune și urgente care trebuie să vină de la Domnul.",
-            "Mai multe persoane au mărturisit că par să mă bucur de sarcinile de rutină și că le fac bine.",
-            "Aloc un timp considerabil învățării adevărului biblic pentru a-l comunica altora.",
-            "Mă rog frecvent și comunic cu Dumnezeu fără să rostesc niciun cuvânt.",
-            "Mă pot identifica cu cei săraci, deși eu nu sunt sărac, pentru a-i câștiga pentru Hristos.",
-            "Când oamenii au avut probleme spirituale sau practice, i-am ghidat frecvent către soluții utile.",
-            "Sunt capabil să dau direcții altora, pe care aceștia le consideră utile pentru a îndeplini o sarcină.",
-            "Prefer oportunitățile de slujire în care merg în zone noi pentru a trezi interesul pentru Evanghelie.",
-            "Sunt necăsătorit/ă și nu am dificultăți în a-mi controla dorințele sexuale.",
-            "Pot recunoaște dacă învățătura unei persoane este de la Dumnezeu, de la Satana sau de origine umană.",
-            "Mă inspir când am ocazia să împărtășesc credința mea cu necredincioșii pentru a-i conduce spre soluții.",
-            "Am dorința de a consilia și de a încuraja pe cei nedumeriți, vinovați sau descurajați.",
-            "M-am rugat sau am participat atunci când altcineva a fost eliberat de opresiunea demonică.",
-            "Au fost momente când m-am simțit sigur că știu voia lui Dumnezeu chiar și atunci când alții nu erau atât de siguri.",
-            "Dau atât de mult altora pentru că sunt încrezător că Dumnezeu îmi va satisface nevoile.",
-            "M-am rugat pentru alții și vindecarea fizică a avut loc imediat.",
-            "Îmi place să fac lucruri în culise pentru a-i ajuta pe alții și să-i văd beneficiind.",
-            "Mi s-a spus în mod regulat că sunt o persoană foarte ospitalieră.",
-            "Alții mi-au spus că rugăciunile mele pentru ei au primit răspuns în moduri tangibile.",
-            "Am dat explicații ale Cuvântului lui Dumnezeu care i-au informat și i-au binecuvântat pe colegii mei închinători.",
-            "Studiez și citesc Biblia și surse conexe, astfel încât să pot comunica clar adevărul biblic.",
-            "Când mă alătur unui grup, alții par să prefere și să aștepte ca eu să asigur conducerea.",
-            "Simt o anumită chemare de a sluji celor căzuți și celor care au nevoie de o restaurare holistică.",
-            "Cred că sunt instrumentul lui Dumnezeu pentru a aduce transformare supranaturală în circumstanțe.",
-            "Sunt dispus să părăsesc mediul familiar dacă acest lucru mi-ar permite să împărtășesc pe Hristos cu mai mulți oameni.",
-            "Am ajutat colegii credincioși prin rugăciune, instruire biblică și aplicarea învățăturilor acesteia în viața lor de zi cu zi.",
-            "Am frecvent un sentiment puternic despre ceea ce vrea Dumnezeu să le spun oamenilor pentru a-i ajuta să se maturizeze în Hristos.",
-            "Prefer să ajut și să slujesc activ altora, decât să vorbesc sau să citesc despre lucrare.",
-            "Îmi place să comunic adevărurile biblice altora și să văd schimbări pozitive în atitudinile, valorile și conduita lor.",
-            "Am transmis mesaje publice în limbi care au fost interpretate de dragul zidirii.",
-            "Alții mi-au spus că renunț la resurse materiale pentru lucrare.",
-            "Mi s-a spus frecvent că înțeleg și aplic adevărul biblic în moduri semnificative pentru colegii credincioși.",
-            "Îmi place să port responsabilitatea pentru succesul unei anumite sarcini în cadrul bisericii mele.",
-            "Prefer oportunitățile de a sluji în situații în care sunt departe de casă sau mă ocup de zone neabordate anterior, mai degrabă decât lucrarea locală.",
-            "Mă identific cu ușurință cu dorința lui Pavel ca alții să fie singuri, așa cum era el, pentru a îndeplini lucrarea.",
-            "Pot spune dacă o persoană sau mesajul său este de la Dumnezeu sau nu.",
-            "Sunt atras de necredincioși datorită dorinței mele de a-i câștiga pentru Hristos.",
-            "Îi îndemn pe alții să caute o soluție bazată pe Biblie pentru interesele și preocupările lor.",
-            "Ori de câte ori am scos demoni, am chemat întotdeauna Numele lui Isus.",
-            "Sunt de acord cu ceilalți care mi-au spus că exprim o viziune, o încredere și o așteptare neobișnuite.",
-            "Sunt dispus să mențin un nivel de trai mai scăzut pentru a dona timp, talent și resurse lucrării lui Dumnezeu.",
-            "În mai multe rânduri, când m-am rugat pentru bolnavi, eu sau ei am raportat un sentiment al prezenței și puterii de vindecare a lui Dumnezeu.",
-            "Nu mă interesează recompensele când Îl slujesc pe Domnul; mă interesează doar să-I ajut poporul.",
-            "Am dorința de a-mi pune casa la dispoziție celor aflați în slujba Domnului ori de câte ori este nevoie.",
-            "Recunosc vocea lui Dumnezeu care îmi vorbește atunci când mă rog pentru alții.",
-            "Am interpretat limbi (limbi cunoscute) atunci când a fost un mesaj de la Dumnezeu.",
-            "Am capacitatea de a descoperi adevărul prin citirea sau observarea situațiilor.",
-            "Lucrurile par să meargă fără probleme atunci când eu sunt la conducere.",
-            "Îmi place să slujesc celor descurajați, măcinați de vinovăție sau cuiva aflat în închisoare.",
-            "Am observat o recuperare supranaturală atunci când m-am rugat în Numele Domnului.",
-            "Am o dorință puternică de a vedea și de a ajuta oamenii din alte țări să fie câștigați pentru Domnul.",
-            "Oamenii mi-au spus că i-am ajutat în viața lor spirituală și socială și în restaurarea lor.",
-            "Mi se pare că știu ce vrea Dumnezeu ca eu și alții să facem în lucrare la un moment specific.",
-            "Sunt frecvent rugat să fac lucruri, chiar și sarcini mărunte, și le fac cu bucurie.",
-            "Obțin o mare satisfacție studiind Biblia și împărtășind perspectivele mele.",
-            "Când Duhul Sfânt vorbește prin mine, cred că acesta zidește trupul Domnului.",
-            "Oamenii săraci mă acceptă pentru că aleg să trăiesc la nivelul lor socio-economic.",
-            "Am simțit o prezență neobișnuită a lui Dumnezeu și o încredere personală atunci când trebuiau luate decizii importante."
-        ];
 
-        var gifts = {
-         'A': { name: 'Administrare', desc: 'Capacitatea pe care Dumnezeu o dă anumitor membri ai Bisericii de a organiza și coordona Biserica în vederea misiunii sale stabilite divin.', activities: 'Consiliul bisericii, conducător de departament, planificare strategică, coordonator de proiecte.' },
-            'B': { name: 'Apostol', desc: 'Capacitatea dată de Dumnezeu de a merge acolo unde îi trimite El pentru a predica și învăța oamenii adevărul despre Dumnezeu, adesea în zone cu diferențe culturale și lingvistice evidente.', activities: 'Misiuni externe, plantare de biserici, evanghelizare în zone noi, pionierat.' },
-            'C': { name: 'Celibat', desc: 'Capacitatea de a se abține de la interacțiuni sexuale în mod voluntar și cu bucurie, trăind victorios și depășind ispitele sexuale.', activities: 'Slujire cu normă întreagă, proiecte misionare pe termen lung, consiliere.' },
-            'D': { name: 'Deosebirea duhurilor', desc: 'Capacitatea de a distinge între adevăr și eroare și între influența Duhului Sfânt și cea a duhurilor rele.', activities: 'Consiliere, comitet de numiri, evaluarea învățăturilor, mentorat.' },
-            'E': { name: 'Evanghelist', desc: 'Capacitatea de a împărtăși Evanghelia cu cei necredincioși, astfel încât aceștia să devină ucenici ai lui Isus și membri responsabili ai Bisericii.', activities: 'Vizite la domiciliu, studii biblice, campanii publice, mărturie personală.' },
-            'F': { name: 'Îndemnare', desc: 'Capacitatea de a oferi cuvinte de mângâiere, consolare și sfătuire celorlalți credincioși, astfel încât aceștia să se simtă ajutați.', activities: 'Consiliere, vizitarea membrilor, grupuri de sprijin, încurajarea celor descurajați.' },
-            'G': { name: 'Exorcism', desc: 'Capacitatea dată de Dumnezeu de a detecta și expulza demoni sau duhuri rele.', activities: 'Slujire prin rugăciune pentru eliberare, consiliere spirituală profundă.' },
-            'H': { name: 'Credință', desc: 'Capacitatea de a crede, de a se încrede și de a spera în promisiunile Cuvântului Său, inspirându-i și pe alții să accepte și să acționeze conform voii lui Dumnezeu.', activities: 'Comitete de planificare, vizionare pentru proiecte noi, lider de rugăciune.' },
-            'I': { name: 'Dărnicie', desc: 'Capacitatea de a contribui cu resurse materiale la lucrarea Domnului în mod generos și cu bucurie.', activities: 'Strângere de fonduri, proiecte de caritate, sponsorizări, gestionarea resurselor.' },
-            'J': { name: 'Vindecare', desc: 'Capacitatea de a servi ca intermediar pentru Dumnezeu în vindecarea bolilor și restabilirea sănătății, uneori independent de mijloacele naturale sau medicale profesionale.', activities: 'Vizitarea bolnavilor, ministerul sănătății, rugăciune pentru cei care suferă.' },
-            'K': { name: 'Ajutorare', desc: 'Folosirea talentelor pentru a asista în nevoile practice ale altora, ajutându-i pe aceștia să devină mai eficienți în manifestarea propriilor daruri spirituale.', activities: 'Întreținerea bisericii, pregătirea Cinei Domnului, asistență tehnică sau logistică.' },
-            'L': { name: 'Ospitalitate', desc: 'Manifestarea unei atitudini primitoare prin oferirea unei primiri calde, a informațiilor și a asistenței de bază în diverse contexte.', activities: 'Primirea oaspeților, organizarea meselor în comun, cazare pentru vizitatori.' },
-            'M': { name: 'Mijlocire', desc: 'Capacitatea de a se ruga cu compasiune pentru alții și de a observa răspunsuri specifice la aceste rugăciuni.', activities: 'Lanțuri de rugăciune, grupuri de rugăciune, susținerea liderilor prin rugăciune.' },
-            'N': { name: 'Interpretare', desc: 'Capacitatea de a interpreta limbi (vorbirea în limbi) și informații potențial confuze, astfel încât ceilalți să poată înțelege și să fie zidiți.', activities: 'Traducere la evenimente, explicarea doctrinelor, mediere culturală.' },
-            'O': { name: 'Cunoștință', desc: 'Capacitatea de a descoperi, analiza și clarifica informații relevante pentru binele Bisericii.', activities: 'Cercetare biblică, redactarea de materiale educaționale, arhivă, bibliotecă.' },
-            'P': { name: 'Conducere', desc: 'Capacitatea de a îndruma și inspira pe alții să slujească eficient, exercitată cu o atitudine de umilință.', activities: 'Pastor, prezbiter, conducător de tineret, coordonator de departament.' },
-            'Q': { name: 'Milă', desc: 'Capacitatea de a mângâia sau ajuta pe cei care au nevoie de restaurare, având o sensibilitate specială față de persoanele care au nevoie de împăcare și înviorare.', activities: 'Ajutorarea săracilor, vizite în spitale sau închisori, asistență socială.' },
-            'R': { name: 'Minuni', desc: 'Capacitatea de a înfăptui acte puternice care Îl glorifică pe Dumnezeu și zidesc misiunea Sa de răscumpărare.', activities: 'Slujire prin rugăciuni puternice, evanghelizare prin semne și minuni.' },
-            'S': { name: 'Misionar', desc: 'Capacitatea de a împărtăși misiunea salvării în contexte interculturale, adesea în zone îndepărtate geografic de origine.', activities: 'Lucrare în comunități etnice diferite, traduceri, adaptarea culturală a mesajului.' },
-            'T': { name: 'Pastor', desc: 'Capacitatea de a păstori alți credincioși pentru bunăstarea lor spirituală, prin consiliere și încurajare spre descoperirea și dezvoltarea propriilor daruri spirituale.', activities: 'Conducerea unei comunități, îngrijirea spirituală a membrilor, mentorat.' },
-            'U': { name: 'Profeție', desc: 'Capacitatea de a primi și comunica mesajul lui Dumnezeu, astfel încât ascultătorii să fie provocați să răspundă prin credință; poate include și conținut predictiv.', activities: 'Predicare, avertizare spirituală, comunicarea mesajelor de la Dumnezeu pentru biserică.' },
-            'V': { name: 'Slujire', desc: 'Capacitatea de a ajuta indivizi și grupuri în împlinirea nevoilor lor, folosind resursele în mod practic, fără a cere recunoaștere sau recompensă.', activities: 'Orice activitate practică necesară în biserică (diaconie, curățenie, ajutor divers).' },
-            'W': { name: 'Învățătură', desc: 'Capacitatea de a instrui și comunica eficient Cuvântul lui Dumnezeu.', activities: 'Școala de Sabat, cursuri de instructaj biblic, profesor de religie.' },
-            'X': { name: 'Limbi', desc: 'Capacitatea de a vorbi o limbă neînvățată anterior pentru a-L glorifica pe Dumnezeu și a autentifica mesajul mântuirii.', activities: 'Slujire în contexte multilingve, misiune internațională.' },
-            'Y': { name: 'Sărăcie Voluntară', desc: 'Capacitatea de a renunța la confortul material sau lux și de a adopta un stil de viață simplu pentru a-I sluji lui Dumnezeu mai eficient.', activities: 'Lucru cu persoanele fără adăpost, misiune în zone extrem de sărace.' },
-            'Z': { name: 'Înțelepciune', desc: 'Capacitatea de a aplica cunoștințele sau informațiile pentru un beneficiu practic sporit și de a oferi sfaturi înțelepte din Cuvântul lui Dumnezeu.', activities: 'Consiliere pastorală, rezolvarea conflictelor, oferirea de sfaturi strategice.' }
-       };
-        var giftQuestions = {
-            'A': [1, 27, 53, 79, 105], 'B': [2, 28, 54, 80, 106], 'C': [3, 29, 55, 81, 107],
-            'D': [4, 30, 56, 82, 108], 'E': [5, 31, 57, 83, 109], 'F': [6, 32, 58, 84, 110],
-            'G': [7, 33, 59, 85, 111], 'H': [8, 34, 60, 86, 112], 'I': [9, 35, 61, 87, 113],
-            'J': [10, 36, 62, 88, 114], 'K': [11, 37, 63, 89, 115], 'L': [12, 38, 64, 90, 116],
-            'M': [13, 39, 65, 91, 117], 'N': [14, 40, 66, 92, 118], 'O': [15, 41, 67, 93, 119],
-            'P': [16, 42, 68, 94, 120], 'Q': [17, 43, 69, 95, 121], 'R': [18, 44, 70, 96, 122],
-            'S': [19, 45, 71, 97, 123], 'T': [20, 46, 72, 98, 124], 'U': [21, 47, 73, 99, 125],
-            'V': [22, 48, 74, 100, 126], 'W': [23, 49, 75, 101, 127], 'X': [24, 50, 76, 102, 128],
-            'Y': [25, 51, 77, 103, 129], 'Z': [26, 52, 78, 104, 130]
-        };
+    <div id="results" class="mb-5" style="display: none;">
+        <h3>Rezultatele tale:</h3>
+        <div id="results-list"></div>
+    </div>
+</div>
 
-        var container = document.getElementById('questionsContainer');
-        var questionsPerPage = 25;
-        var totalPages = Math.ceil(questions.length / questionsPerPage);
-        var currentPage = 1;
+<script>
+    const questions = [
+        "Am o dorință puternică de a-i ajuta pe alții să crească spiritual.",
+        "Am răspuns frecvent la apelul de a predica sau de a prezenta evanghelia celor necunoscători și neobișnuiți cu mediul bisericesc.",
+        "Pot să organizez eficient activități și oameni pentru a atinge obiectivele bisericii.",
+        "Mă simt împlinit spunând altora ce a făcut Dumnezeu în viața mea.",
+        "Sunt gata să renunț la confortul personal pentru a-i ajuta pe cei aflați în nevoie.",
+        "Îmi place să studiez profund Biblia pentru a descoperi noi înțelesuri.",
+        "Am capacitatea de a încuraja oamenii care trec prin momente dificile.",
+        "Dau cu bucurie mai mult decât zecimea pentru lucrarea Domnului.",
+        "Simt o responsabilitate deosebită pentru protejarea și îndrumarea unui grup de credincioși.",
+        "Îmi place să fac ordine și să creez sisteme care funcționează.",
+        "Îmi place să găzduiesc oameni în casa mea, chiar și pe cei pe care nu îi cunosc bine.",
+        "Simt adesea nevoia să mă rog pentru alții, chiar și ore întregi.",
+        "Am capacitatea de a identifica rapid nevoile practice ale bisericii și de a le împlini.",
+        "Îmi place să studiez adevărurile biblice și apoi să le transmit altora, pentru ca aceștia să crească în credință.",
+        "Dumnezeu mi-a dat abilitatea de a lua decizii înțelepte în situații de criză.",
+        "Simt compasiune profundă pentru cei care suferă și sunt marginalizați.",
+        "Sunt atras de lucrarea misionară în alte culturi sau locuri.",
+        "Am o credință nezdruncinată că Dumnezeu va face lucruri imposibile.",
+        "Pot distinge ușor între o învățătură biblică și una falsă.",
+        "Mă simt chemat să avertizez oamenii cu privire la păcat și să îi chem la pocăință.",
+        "Sunt bucuros să îndeplinesc sarcini administrative pentru bunul mers al bisericii.",
+        "Îmi place să explic doctrinele biblice pe înțelesul tuturor.",
+        "Pot să-i motivez pe alții să se implice în proiecte importante.",
+        "Sunt generos cu resursele mele financiare fără să caut recunoaștere.",
+        "Mă simt împlinit când văd pe cineva progresând sub îndrumarea mea.",
+        "Îmi place să pregătesc logistica pentru evenimentele bisericii.",
+        "Oaspeții se simt întotdeauna bineveniți și iubiți în prezența mea.",
+        "Cred cu tărie în puterea rugăciunii de mijlocire.",
+        "Prefer să lucrez în spatele scenei pentru a sprijini liderii.",
+        "Simt o bucurie imensă când cineva Îl acceptă pe Hristos în urma discuției cu mine.",
+        "Am o viziune clară despre viitorul comunității mele.",
+        "Pot să ofer sfaturi practice bazate pe principii biblice.",
+        "Sunt gata să vizitez bolnavii sau pe cei din închisori.",
+        "Mă adaptez ușor în medii străine pentru a împărtăși Evanghelia.",
+        "Nu mă descurajez când lucrurile merg prost, pentru că mă încred în Dumnezeu.",
+        "Simt când cineva are un spirit care nu este de la Dumnezeu.",
+        "Când vorbesc, oamenii simt că mesajul vine direct de la Domnul.",
+        "Îmi place să coordonez echipe de voluntari.",
+        "Sunt răbdător cu cei care învață greu adevărurile biblice.",
+        "Pot identifica lideri potențiali și să îi ajut să se dezvolte.",
+        "Dau bani cu promptitudine atunci când apare o nevoie urgentă în biserică.",
+        "Sunt dispus să îmi dedic timpul pentru a consilia persoanele în criză spirituală.",
+        "Îmi place să am grijă de oameni care au lipsuri materiale și nevoi fizice.",
+        "Îmi deschid cu drag casa pentru grupuri de studiu biblic.",
+        "Primesc adesea răspunsuri specifice la rugăciunile mele pentru alții.",
+        "Nu am nevoie de laude pentru munca practică pe care o depun.",
+        "Vorbesc cu entuziasm despre credința mea oricărei persoane întâlnite.",
+        "Pot să văd „imaginea de ansamblu” a unui proiect înainte de a începe.",
+        "Oamenii vin la mine pentru a primi îndrumare în decizii dificile.",
+        "Simt o durere profundă pentru cei care nu Îl cunosc pe Dumnezeu.",
+        "Mi se pare entuziasmant să ajut la demararea unor noi biserici sau proiecte creștine.",
+        "Sunt convins de puterea lui Dumnezeu chiar și când totul pare pierdut.",
+        "Pot detecta motivele ascunse ale celor care produc dezbinare.",
+        "Mesajele mele provoacă adesea o schimbare imediată de atitudine în ascultători.",
+        "Sunt dispus să rămân singur (necăsătorit/ă), dacă acest lucru mi-ar permite să fiu mai eficient în lucrarea Domnului.",
+        "Am capacitatea de a discerne rapid între adevărul biblic și rătăcire.",
+        "Îmi place să creez structuri care să ajute la creșterea bisericii.",
+        "Sunt pasionat de educarea copiilor și tinerilor în credință.",
+        "Pot delega sarcini celor care au abilitățile potrivite.",
+        "Consider că tot ce dețin aparține lui Dumnezeu și trebuie folosit pentru El.",
+        "Sunt gata să veghez asupra vieții spirituale a celor din grupul meu.",
+        "Îmi place să repar lucruri sau să ajut la întreținerea clădirii bisericii.",
+        "Creez o atmosferă de familie pentru oricine intră în contact cu mine.",
+        "Mă rog cu regularitate pentru lista mea de nevoi spirituale ale comunității.",
+        "Mă simt onorat să servesc la mese sau să ajut la curățenie în biserică.",
+        "Pot să explic Evanghelia într-un mod care să atragă oamenii.",
+        "Am curajul de a conduce oamenii în situații necunoscute.",
+        "Am o intuiție spirituală despre ce ar trebui să facă cineva într-o situație.",
+        "Sunt gata să ascult ore în șir problemele cuiva fără să îl judec.",
+        "Îmi place să învăț limbi noi pentru a comunica Evanghelia altora.",
+        "Am avut experiențe în care Dumnezeu a lucrat miraculos prin credința mea.",
+        "Simt când cineva este sub influența unei puteri spirituale negative.",
+        "Unii mi-au spus că am comunicat mesaje oportune și urgente, care provin de la Domnul.",
+        "Pot organiza finanțele bisericii cu mare integritate.",
+        "Îmi place să pregătesc materiale de studiu biblic.",
+        "Oamenii tind să mă urmeze atunci când propun o direcție nouă.",
+        "Pot să mă pun în locul celor săraci, deși nu sunt sărac, pentru a-i câştiga pentru Hristos.",
+        "Mă simt împlinit să fiu mentor pentru un nou convertit.",
+        "Sunt primul care se oferă când e nevoie de ajutor fizic la un eveniment.",
+        "Mă simt confortabil să primesc străini în casa mea pentru noapte.",
+        "Cred că rugăciunea este cea mai importantă muncă pe care o pot face.",
+        "Sunt fericit să fac munca de secretariat pentru ca pastorul să fie liber.",
+        "Mă simt inspirat atunci când am ocazia să îmi împărtășesc credința cu cei care nu cred în Dumnezeu și să îi îndrum către soluții.",
+        "Am viziune pentru extinderea lucrării lui Dumnezeu în alte cartiere sau orașe.",
+        "M-am rugat sau am participat atunci când altcineva a fost eliberat de sub apăsarea demonică.",
+        "Dumnezeu mi-a oferit în mod supranatural resurse financiare pentru a le da altora.",
+        "Când cineva este căzut, știu exact ce cuvinte să îi spun pentru a-l ridica.",
+        "Sunt gata să fac orice sacrificiu pentru a fi misionar.",
+        "Îmi face plăcere să fac lucruri din umbră pentru a-i ajuta pe alții și să-i văd beneficiind de ele.",
+        "Am o pace interioară profundă chiar și în mijlocul furtunilor vieții.",
+        "Mi s-a spus că Dumnezeu a răspuns la rugăciunile mele pentru alții în moduri concrete.",
+        "Pot vedea imediat dacă o persoană este sinceră sau nu.",
+        "Cercetez Biblia și alte surse relevante, ca să pot transmite clar adevărul biblic.",
+        "Când intru într-un grup, ceilalți tind să se aștepte de la mine să preiau conducerea.",
+        "Simt o anumită chemare de a sluji celor căzuți și celor care au nevoie de o restaurare deplină.",
+        "Cred că Dumnezeu mă folosește ca instrument pentru a aduce transformare supranaturală în anumite situații.",
+        "Sunt dispus să părăsesc mediul familiar dacă acest lucru mi-ar permite să-L vestesc pe Hristos unui număr mai mare de oameni.",
+        "I-am ajutat pe alți credincioși prin rugăciune, prin învățătura biblică și prin aplicarea învățăturilor ei în viața lor de zi cu zi.",
+        "Duhul Sfânt mi-a dat capacitatea de a vorbi în limbi pe care nu le-am învățat.",
+        "Pot tălmăci (interpreta) un mesaj rostit într-o limbă necunoscută.",
+        "Simt o putere deosebită atunci când îmi pun mâinile peste cei bolnavi pentru vindecare.",
+        "Am transmis mesaje publice în limbi, care au fost interpretate pentru zidirea bisericii."
+    ];
 
-        // Creem paginile
-        for (var p = 0; p < totalPages; p++) {
-            var pageDiv = document.createElement('div');
-            pageDiv.className = 'page';
-            pageDiv.id = 'page' + (p + 1);
-            if (p === 0) pageDiv.className += ' active';
-            
-            var startIdx = p * questionsPerPage;
-            var endIdx = Math.min(startIdx + questionsPerPage, questions.length);
-            
-            for (var i = startIdx; i < endIdx; i++) {
-                var questionBlock = document.createElement('div');
-                questionBlock.className = 'question-block';
-                questionBlock.innerHTML = '<div class="question-number">Întrebarea ' + (i + 1) + '</div>' +
-                    '<div class="question-text">' + questions[i] + '</div>' +
-                    '<div class="radio-group">' +
-                        '<div class="radio-option">' +
-                            '<input type="radio" id="q' + i + '_0" name="q' + i + '" value="0">' +
-                            '<label for="q' + i + '_0">0 - Deloc</label>' +
-                        '</div>' +
-                        '<div class="radio-option">' +
-                            '<input type="radio" id="q' + i + '_1" name="q' + i + '" value="1">' +
-                            '<label for="q' + i + '_1">1 - Puțin</label>' +
-                        '</div>' +
-                        '<div class="radio-option">' +
-                            '<input type="radio" id="q' + i + '_2" name="q' + i + '" value="2">' +
-                            '<label for="q' + i + '_2">2 - Uneori</label>' +
-                        '</div>' +
-                        '<div class="radio-option">' +
-                            '<input type="radio" id="q' + i + '_3" name="q' + i + '" value="3">' +
-                            '<label for="q' + i + '_3">3 - În mare măsură</label>' +
-                        '</div>' +
-                    '</div>';
-                pageDiv.appendChild(questionBlock);
-            }
-            container.appendChild(pageDiv);
+    const giftTypes = {
+        "Păstor": [0, 8, 24, 60, 77, 97],
+        "Evanghelist": [1, 29, 46, 65, 82],
+        "Administrator": [2, 9, 20, 37, 56, 73],
+        "Mărturisitor": [3, 49],
+        "Ajutor/Slujire": [4, 12, 28, 45, 61, 64, 78, 88],
+        "Cercetător": [5, 21, 38, 57, 74, 92],
+        "Îcurajator": [6, 31, 41, 68, 86],
+        "Dărnicie": [7, 23, 40, 59, 73, 85],
+        "Ospitalitate": [10, 26, 43, 62, 79],
+        "Mijlocitor": [11, 27, 44, 63, 80, 90],
+        "Învățător": [13, 21, 38, 57, 74, 92],
+        "Înțelepciune": [14, 31, 48, 67, 86],
+        "Milosârdie": [15, 32, 42, 50, 68, 76, 94],
+        "Misionar": [16, 33, 69, 87, 96],
+        "Credință": [17, 34, 51, 70, 89],
+        "Discernământ": [18, 35, 52, 55, 71, 91],
+        "Profeție": [19, 36, 53, 72],
+        "Conducere": [22, 30, 39, 47, 58, 66, 75, 93],
+        "Celibat": [54],
+        "Exorcism": [84],
+        "Minuni": [95],
+        "Limbi": [98, 101],
+        "Interpretare": [99],
+        "Vindecare": [100]
+    };
+
+    const responses = new Array(questions.length).fill(null);
+
+    function renderQuestions() {
+        const container = document.getElementById('survey-container');
+        questions.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.innerHTML = `
+                <h5>${index + 1}. ${q}</h5>
+                <div class="options-group">
+                    ${[0, 1, 2, 3, 4, 5].map(val => `
+                        <div class="option-item">
+                            <input type="radio" class="btn-check" name="q${index}" id="q${index}v${val}" value="${val}" onchange="saveResponse(${index}, ${val})">
+                            <label class="btn btn-outline-primary" for="q${index}v${val}">${val}</label>
+                            <div class="small mt-1 text-muted">${getLabel(val)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function getLabel(val) {
+        const labels = ["Niciodată", "Rar", "Uneori", "Des", "Foarte Des", "Întotdeauna"];
+        return labels[val];
+    }
+
+    function saveResponse(index, value) {
+        responses[index] = value;
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const answered = responses.filter(r => r !== null).length;
+        const percent = Math.round((answered / questions.length) * 100);
+        const pb = document.getElementById('surveyProgress');
+        pb.style.width = percent + '%';
+        pb.innerText = percent + '%';
+        
+        if (answered === questions.length) {
+            document.getElementById('calculateBtn').style.display = 'inline-block';
         }
-       
-        // Adăugăm event listeners pentru a elimina marcajul roșu când se răspunde
-        document.addEventListener('change', function(e) {
-            if (e.target.type === 'radio') {
-                var questionBlock = e.target.closest('.question-block');
-                if (questionBlock && questionBlock.classList.contains('unanswered')) {
-                    questionBlock.classList.remove('unanswered');
-                }             
-                // Salvăm răspunsul în localStorage
-                localStorage.setItem('daruri_' + e.target.name, e.target.value);
+    }
+
+    function calculateResults() {
+        const scores = {};
+        for (const [gift, qIndices] of Object.entries(giftTypes)) {
+            let sum = 0;
+            let count = 0;
+            qIndices.forEach(idx => {
+                if (responses[idx] !== null) {
+                    sum += responses[idx];
+                    count++;
+                }
+            });
+            scores[gift] = count > 0 ? (sum / (count * 5)) * 100 : 0;
+        }
+
+        const sortedGifts = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+        
+        const resultsDiv = document.getElementById('results');
+        const listDiv = document.getElementById('results-list');
+        listDiv.innerHTML = '';
+        
+        sortedGifts.forEach(([gift, score]) => {
+            if (score > 0) {
+                const item = document.createElement('div');
+                item.className = 'result-item d-flex justify-content-between align-items-center';
+                item.innerHTML = `
+                    <span><strong>${gift}</strong></span>
+                    <div class="progress flex-grow-1 mx-3" style="height: 10px;">
+                        <div class="progress-bar bg-success" style="width: ${score}%"></div>
+                    </div>
+                    <span>${Math.round(score)}%</span>
+                `;
+                listDiv.appendChild(item);
             }
         });
-        
-        // Încărcăm răspunsurile salvate la pornire
-        function loadSavedAnswers() {
-            for (var i = 0; i < questions.length; i++) {
-                var savedValue = localStorage.getItem('daruri_q' + i);
-                if (savedValue !== null) {
-                    var radio = document.querySelector('input[name="q' + i + '"][value="' + savedValue + '"]');
-                    if (radio) {
-                        radio.checked = true;
-                    }
-                }
-            }
-        }
-        
-        // Funcție de resetare
-        function resetTest() {
-            if (confirm('Sigur vrei să resetezi toate răspunsurile? Această acțiune nu poate fi anulată.')) {
-                // Ștergem toate răspunsurile din localStorage
-                for (var i = 0; i < questions.length; i++) {
-                    localStorage.removeItem('daruri_q' + i);
-                }
-                
-                // Deselectăm toate radio buttons
-                var allRadios = document.querySelectorAll('input[type="radio"]');
-                allRadios.forEach(function(radio) {
-                    radio.checked = false;
-                });
-                
-                // Eliminăm marcajele roșii
-                var allBlocks = document.querySelectorAll('.question-block');
-                allBlocks.forEach(function(block) {
-                    block.classList.remove('unanswered');
-                });
-                
-                // Ascundem rezultatele
-                document.getElementById('results').style.display = 'none';
-                
-                // Mergem la prima pagină
-                if (currentPage !== 1) {
-                    document.getElementById('page' + currentPage).classList.remove('active');
-                    currentPage = 1;
-                    document.getElementById('page1').classList.add('active');
-                    document.getElementById('pageIndicator').textContent = 'Pagina 1 din ' + totalPages;
-                    document.getElementById('prevButton').disabled = true;
-                    document.getElementById('nextButton').style.display = 'block';
-                    document.getElementById('submitButton').style.display = 'none';
-                }
-                
-                // Afișăm instrucțiunile
-                document.getElementById('instructions').style.display = 'block';
-                
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                updateProgressBar();
-                
-                alert('Testul a fost resetat cu succes!');
-            }
-        }
-        
-        // Încărcăm răspunsurile salvate
-        loadSavedAnswers();
-		
-        function changePage(direction) {
-            var newPage = currentPage + direction;
-            if (newPage < 1 || newPage > totalPages) return;
-    
-			// Verificăm dacă există întrebări necompletate pe pagina curentă înainte de a merge înainte
-            if (direction > 0) {
-                var startIdx = (currentPage - 1) * questionsPerPage;
-                var endIdx = Math.min(startIdx + questionsPerPage, questions.length);
-                var unansweredOnPage = [];
-                var firstUnansweredBlock = null;
-                
-                for (var i = startIdx; i < endIdx; i++) {
-                    var answer = document.querySelector('input[name="q' + i + '"]:checked');
-                    var questionBlocks = document.getElementById('page' + currentPage).querySelectorAll('.question-block');
-                    var blockIndex = i - startIdx;
-                    
-                    if (!answer) {
-                        unansweredOnPage.push(i + 1);
-                        if (questionBlocks[blockIndex]) {
-                            questionBlocks[blockIndex].classList.add('unanswered');
-                            if (!firstUnansweredBlock) {
-                                firstUnansweredBlock = questionBlocks[blockIndex];
-                            }
-                        }
-                    }
-                }
-                
-                if (unansweredOnPage.length > 0) {
-                    alert('Te rugăm să răspunzi la toate întrebările de pe această pagină înainte de a continua!\n\nÎntrebări fără răspuns: ' + unansweredOnPage.join(', '));
-                                        
-                    // Scroll la prima întrebare necompletată
-                    if (firstUnansweredBlock) {
-                        setTimeout(function() {
-                            firstUnansweredBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }, 100);
-                    }
-					
-					return;
-                }
-            }
-            
-            document.getElementById('page' + currentPage).classList.remove('active');
-            currentPage = newPage;
-            document.getElementById('page' + currentPage).classList.add('active');
-           // Ascundem instrucțiunile pe toate paginile în afară de prima
-            if (currentPage === 1) {
-                document.getElementById('instructions').style.display = 'block';
-            } else {
-                document.getElementById('instructions').style.display = 'none';
-            }
-            			
-            document.getElementById('pageIndicator').textContent = 'Pagina ' + currentPage + ' din ' + totalPages;
-            document.getElementById('prevButton').disabled = currentPage === 1;
-            
-            // Afișăm ambele butoane pe ultima pagină
-            if (currentPage === totalPages) {
-                document.getElementById('nextButton').style.display = 'none';
-                document.getElementById('submitButton').style.display = 'block';
-            } else {
-                document.getElementById('nextButton').style.display = 'block';
-                document.getElementById('submitButton').style.display = 'none';
-            }
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            updateProgressBar();
-        }
 
-        function updateProgressBar() {
-            var progress = (currentPage / totalPages) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
+        resultsDiv.style.display = 'block';
+        resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
 
-        document.getElementById('prevButton').disabled = true;
-        updateProgressBar();
+    renderQuestions();
+</script>
 
-        document.getElementById('spiritualGiftsForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Verificăm dacă toate întrebările au răspuns
-            var unanswered = [];
-            for (var i = 0; i < questions.length; i++) {
-                var answer = document.querySelector('input[name="q' + i + '"]:checked');
-                if (!answer) {
-                    unanswered.push(i + 1);
-                }
-            }
-            
-            if (unanswered.length > 0) {
-                alert('Te rugăm să răspunzi la toate întrebările! Întrebările fără răspuns (primele 10): ' + unanswered.slice(0, 10).join(', ') + (unanswered.length > 10 ? '...' : ''));
-                return;
-            }
-            
-            var scores = {};
-            Object.keys(giftQuestions).forEach(function(gift) {
-                scores[gift] = 0;
-                giftQuestions[gift].forEach(function(questionNum) {
-                    var answer = document.querySelector('input[name="q' + (questionNum - 1) + '"]:checked');
-                    if (answer) scores[gift] += parseInt(answer.value);
-                });
-            });
-            
-            var sortedGifts = Object.entries(scores).sort(function(a, b) { return b[1] - a[1]; });
-            var resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.innerHTML = '';
-            
-            sortedGifts.forEach(function(item, index) {
-                var giftCode = item[0];
-                var score = item[1];
-                var gift = gifts[giftCode];
-                var isTopGift = index < 5;
-                var resultDiv = document.createElement('div');
-                resultDiv.className = 'gift-result' + (isTopGift ? ' top-gift' : '');
-                resultDiv.innerHTML = '<div class="gift-name">' + (isTopGift ? '⭐ ' : '') + gift.name + '</div>' +
-                    '<div class="gift-score">Punctaj: ' + score + ' din 15</div>' +
-                    '<div class="gift-description">' + gift.desc + '</div>' +
-                    (isTopGift ? '<div class="gift-activities"><h4>🎯 Activități recomandate:</h4><p>' + gift.activities + '</p></div>' : '');
-                resultsContainer.appendChild(resultDiv);
-            });
-            
-            var resultsSection = document.getElementById('results');
-            resultsSection.style.display = 'block';
-		// Afișăm secțiunea de email
-            document.getElementById('emailSection').style.display = 'block';
-          
-            setTimeout(function() {
-                resultsSection.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-        });
-       
-        function sendEmail() {
-            var email = document.getElementById('emailInput').value;
-            
-            if (!email || !email.includes('@')) {
-                alert('Te rugăm să introduci o adresă de email validă!');
-                return;
-            }
-            
-            var button = document.getElementById('sendEmailBtn');
-            button.disabled = true;
-            button.textContent = 'Se trimite...';
-            
-            // Colectăm rezultatele
-            var resultsText = 'REZULTATELE TESTULUI DARURI SPIRITUALE\n\n';
-            resultsText += '=====================================\n\n';
-            
-            var sortedGifts = [];
-            var scores = {};
-            Object.keys(giftQuestions).forEach(function(gift) {
-                scores[gift] = 0;
-                giftQuestions[gift].forEach(function(questionNum) {
-                    var answer = document.querySelector('input[name="q' + (questionNum - 1) + '"]:checked');
-                    if (answer) scores[gift] += parseInt(answer.value);
-                });
-            });
-            sortedGifts = Object.entries(scores).sort(function(a, b) { return b[1] - a[1]; });
-            
-            sortedGifts.forEach(function(item, index) {
-                var giftCode = item[0];
-                var score = item[1];
-                var gift = gifts[giftCode];
-                var isTopGift = index < 5;
-                
-                resultsText += (index + 1) + '. ' + gift.name + (isTopGift ? ' ⭐' : '') + '\n';
-                resultsText += '   Punctaj: ' + score + ' din 15\n';
-                resultsText += '   ' + gift.desc + '\n';
-                if (isTopGift) {
-                    resultsText += '   Activități recomandate: ' + gift.activities + '\n';
-                }
-                resultsText += '\n';
-            });
-            
-            resultsText += '\n=====================================\n';
-            resultsText += 'Test generat de: Test Daruri Spirituale\n';
-            
-            // Creăm subiectul și corpul email-ului
-            var subject = 'Rezultatele mele - Test Daruri Spirituale';
-            var body = encodeURIComponent(resultsText);
-            
-            // Deschidem clientul de email
-            window.location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + body;
-            
-            setTimeout(function() {
-                button.disabled = false;
-                button.textContent = 'Trimite rezultatele';
-                alert('Clientul tău de email s-a deschis! Verifică și trimite mesajul.');
-            }, 1000);
-        }
-		
-    </script>
 </body>
 </html>
